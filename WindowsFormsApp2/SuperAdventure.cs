@@ -19,8 +19,8 @@ namespace WindowsFormsApp2
 
         public SuperAdventure()
         {
-            Location location = new Location(1, "Home", "This could be your home, hopefully." );
-
+            Location location = new Location(1, "Home", "This could be your home, hopefully.", null, null, null);
+            
             boio = new Player(10, 10, 20, 0, 1);
 
             InitializeComponent();
