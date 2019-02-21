@@ -25,7 +25,6 @@ namespace WindowsFormsApp2
 
             InitializeComponent();
 
-            boio = new Player();
 
             boio.CurrentHitPoints = 10;
             boio.MaximumHitPoints = 10;
@@ -34,7 +33,7 @@ namespace WindowsFormsApp2
 
             lblHitPoints.Text = boio.CurrentHitPoints.ToString();
             lblGold.Text = boio.Gold.ToString();
-            lblExperience.Text = boio.ExeriencePoints.ToString();
+            lblExperience.Text = boio.ExperiencePoints.ToString();
             lblLevel.Text = boio.Level.ToString();
         }
 
