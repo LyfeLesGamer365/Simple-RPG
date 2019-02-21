@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Engine
 {
-    public class HealingPotion : Item 
+    public class HealingPotion : Item // gives pot a name, id and amount to heal
     {
         public int AmountToHeal { get; set; }
 

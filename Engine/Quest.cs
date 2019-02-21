@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Engine
 {
-   public class Quest
+   public class Quest // gives a quest, name, id, gold, and xp reward
     {
         public int ID { get; set; }
         public string Name { get; set; }
