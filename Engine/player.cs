@@ -148,11 +148,12 @@ namespace Engine
 
             if(item != null)
             {
-                Inventory.Add(new InventoryItem(itemToAdd, 1));
+                item.Quantity++;
+               
             }
             else
             {
-                item.Quantity++;
+                Inventory.Add(new InventoryItem(itemToAdd, 1));
             }
         }
 
