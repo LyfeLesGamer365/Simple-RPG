@@ -8,6 +8,8 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using Engine;
+using System.Xml;
+
 
 namespace WindowsFormsApp2
 {
@@ -20,14 +22,11 @@ namespace WindowsFormsApp2
         {
             InitializeComponent();
 
-            _player = new Player(10, 10, 20, 0, 1);
+            _player = new Player(10, 10, 20, 0);
             MoveTo(World.LocationByID(World.LOCATION_ID_HOME));
             _player.Inventory.Add(new InventoryItem(World.ItemByID(World.ITEM_ID_RUSTY_SWORD), 1));
 
-            lblHitPoints.Text = _player.CurrentHitPoints.ToString();
-            lblGold.Text = _player.Gold.ToString();
-            lblExperience.Text = _player.ExperiencePoints.ToString();
-            lblLevel.Text = _player.Level.ToString();
+          
         }
 
         private void btnNorth_Click(object sender, EventArgs e)
@@ -178,6 +177,8 @@ namespace WindowsFormsApp2
                 btnUseWeapon.Visible = false;
                 btnUsePotion.Visible = false;
             }
+
+            UpdatePlayerPoints();
 
             // Refresh player's inventory list
             UpdateInventoryListInUI();
@@ -358,13 +359,7 @@ namespace WindowsFormsApp2
                         rtbMessages.Text += "You loot " + inventoryItem.Quantity.ToString() + " " + inventoryItem.Details.NamePlural + Environment.NewLine;
                     }
                 }
-
-                // Refresh player information and inventory controls
-                lblHitPoints.Text = _player.CurrentHitPoints.ToString();
-                lblGold.Text = _player.Gold.ToString();
-                lblExperience.Text = _player.ExperiencePoints.ToString();
-                lblLevel.Text = _player.Level.ToString();
-
+                UpdatePlayerPoints();
                 UpdateInventoryListInUI();
                 UpdateWeaponListInUI();
                 UpdatePotionListInUI();
@@ -453,9 +448,22 @@ namespace WindowsFormsApp2
             UpdateInventoryListInUI();
             UpdatePotionListInUI();
         }
-        
 
+        private void rtbMessages_TextChanged(object sender, EventArgs e)
+        {
+            rtbMessages.SelectionStart = rtbMessages.Text.Length;
+            rtbMessages.ScrollToCaret();
+        
+        }
+        private void UpdatePlayerPoints()
+        {
+            // Refresh player information and inventory controls
+            lblHitPoints.Text = _player.CurrentHitPoints.ToString();
+            lblGold.Text = _player.Gold.ToString();
+            lblExperience.Text = _player.ExperiencePoints.ToString();
+            lblLevel.Text = _player.Level.ToString();
         }
     }
+  }
 
 
