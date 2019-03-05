@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Xml;
+using System.ComponentModel;
 
 
 namespace Engine
@@ -39,8 +40,8 @@ namespace Engine
         }
         public Location CurrentLocation { get; set; }
         public Weapon CurrentWeapon { get; set; }
-        public List<InventoryItem> Inventory {get;set;}
-        public List<PlayerQuest> Quests {get;set;}
+        public BindingList<InventoryItem> Inventory {get;set;}
+        public BindingList<PlayerQuest> Quests {get;set;}
         
 
         private Player(int currentHitPoints, int maximumHitPoints, int gold, int experiencePoints) : base(currentHitPoints, maximumHitPoints)
@@ -48,8 +49,8 @@ namespace Engine
             Gold = gold;
             ExperiencePoints = experiencePoints;
 
-            Inventory = new List<InventoryItem>();
-            Quests = new List<PlayerQuest>();
+            Inventory = new BindingList<InventoryItem>();
+            Quests = new BindingList<PlayerQuest>();
 
         }
 
@@ -127,19 +128,19 @@ namespace Engine
                 return true;
             }
 
-            return Inventory.Exists(ii => ii.Details.ID == location.ItemRequiredToEnter.ID);
+            return Inventory.Any(ii => ii.Details.ID == location.ItemRequiredToEnter.ID);
         }
 
         public bool HasThisQuest(Quest quest)
         {
-            return Quests.Exists(pq => pq.Details.ID == quest.ID);
+            return Quests.Any(pq => pq.details.ID == quest.ID);
         }
 
         public bool CompletedThisQuest(Quest quest)
         {
             foreach (PlayerQuest playerQuest in Quests)
             {
-                if (playerQuest.Details.ID == quest.ID)
+                if (playerQuest.details.ID == quest.ID)
                 {
                     return playerQuest.IsCompleted;
                 }
@@ -153,7 +154,7 @@ namespace Engine
             // See if the player has all the items needed to complete the quest here
             foreach (QuestCompletionItem qci in quest.QuestCompletionItems)
             {
-               if(!Inventory.Exists(ii => ii.Details.ID == qci.Details.ID && ii.Quantity >= qci.Quantity))
+               if(!Inventory.Any(ii => ii.Details.ID == qci.Details.ID && ii.Quantity >= qci.Quantity))
                 {
                     return false;
                 }
@@ -195,7 +196,7 @@ namespace Engine
         public void MarkQuestCompleted(Quest quest)
         {
 
-            PlayerQuest playerQuest = Quests.SingleOrDefault(pq => pq.Details.ID == quest.ID);
+            PlayerQuest playerQuest = Quests.SingleOrDefault(pq => pq.details.ID == quest.ID);
             
                 if (playerQuest != null)
                 {
@@ -271,7 +272,7 @@ namespace Engine
                 XmlNode playerQuest = playerData.CreateElement("PlayerQuest");
 
                 XmlAttribute idAttribute = playerData.CreateAttribute("ID");
-                idAttribute.Value = quest.Details.ID.ToString();
+                idAttribute.Value = quest.details.ID.ToString();
                 playerQuest.Attributes.Append(idAttribute);
 
                 XmlAttribute isCompletedAttribute = playerData.CreateAttribute("IsCompleted");

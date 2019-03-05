@@ -38,6 +38,24 @@ namespace WindowsFormsApp2
             lblExperience.DataBindings.Add("Text", _player, "ExperiencePoints");
             lblLevel.DataBindings.Add("Text", _player, "Level");
 
+            dgvInventory.RowHeadersVisible = false;
+            dgvInventory.AutoGenerateColumns = false;
+
+            dgvInventory.DataSource = _player.Inventory;
+
+            dgvInventory.Columns.Add(new DataGridViewTextBoxColumn
+            {
+                HeaderText = "Name",
+                Width = 197,
+                DataPropertyName = "Description"
+            });
+
+            dgvInventory.Columns.Add(new DataGridViewTextBoxColumn
+            {
+                HeaderText = "Quantity",
+                DataPropertyName = "Quantity"
+            });
+
             MoveTo(_player.CurrentLocation);
 
             UpdatePlayerPoints();
@@ -243,7 +261,7 @@ namespace WindowsFormsApp2
 
             foreach (PlayerQuest playerQuest in _player.Quests)
             {
-                dgvQuests.Rows.Add(new[] { playerQuest.Details.Name, playerQuest.IsCompleted.ToString() });
+                dgvQuests.Rows.Add(new[] { playerQuest.details.Name, playerQuest.IsCompleted.ToString() });
             }
         }
 
