@@ -215,8 +215,8 @@ namespace WindowsFormsApp2
 
             UpdatePlayerPoints();
 
-            // Refresh player's inventory list
-            UpdateInventoryListInUI();
+            
+            
 
             // Refresh player's quest list
             UpdateQuestListInUI();
@@ -228,41 +228,26 @@ namespace WindowsFormsApp2
             UpdatePotionListInUI();
         }
 
-        private void UpdateInventoryListInUI()
-        {
-            dgvInventory.RowHeadersVisible = false;
-
-            dgvInventory.ColumnCount = 2;
-            dgvInventory.Columns[0].Name = "Name";
-            dgvInventory.Columns[0].Width = 197;
-            dgvInventory.Columns[1].Name = "Quantity";
-
-            dgvInventory.Rows.Clear();
-
-            foreach (InventoryItem inventoryItem in _player.Inventory)
-            {
-                if (inventoryItem.Quantity > 0)
-                {
-                    dgvInventory.Rows.Add(new[] { inventoryItem.Details.Name, inventoryItem.Quantity.ToString() });
-                }
-            }
-        }
 
         private void UpdateQuestListInUI()
         {
             dgvQuests.RowHeadersVisible = false;
+            dgvQuests.AutoGenerateColumns = false;
 
-            dgvQuests.ColumnCount = 2;
-            dgvQuests.Columns[0].Name = "Name";
-            dgvQuests.Columns[0].Width = 197;
-            dgvQuests.Columns[1].Name = "Done?";
-
-            dgvQuests.Rows.Clear();
-
-            foreach (PlayerQuest playerQuest in _player.Quests)
+            dgvQuests.DataSource = _player.Quests;
+            dgvQuests.Columns.Add(new DataGridViewTextBoxColumn
             {
-                dgvQuests.Rows.Add(new[] { playerQuest.details.Name, playerQuest.IsCompleted.ToString() });
-            }
+                HeaderText = "Name",
+                Width = 197,
+                DataPropertyName = "Name"
+            });
+
+            dgvQuests.Columns.Add(new DataGridViewTextBoxColumn
+            {
+                HeaderText = "Done?",
+                DataPropertyName = "IsCompleted"
+            });
+            
         }
 
         private void UpdateWeaponListInUI()
@@ -405,7 +390,7 @@ namespace WindowsFormsApp2
                     }
                 }
                 UpdatePlayerPoints();
-                UpdateInventoryListInUI();
+               
                 UpdateWeaponListInUI();
                 UpdatePotionListInUI();
 
@@ -490,7 +475,7 @@ namespace WindowsFormsApp2
 
             // Refresh player data in UI
             lblHitPoints.Text = _player.CurrentHitPoints.ToString();
-            UpdateInventoryListInUI();
+           
             UpdatePotionListInUI();
         }
 
